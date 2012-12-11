@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121205063323) do
+ActiveRecord::Schema.define(:version => 20121210063417) do
 
   create_table "airframes", :force => true do |t|
     t.string   "make"
@@ -21,8 +21,58 @@ ActiveRecord::Schema.define(:version => 20121205063323) do
     t.integer  "year"
     t.string   "serial"
     t.string   "registration"
-    t.datetime "created_at",   :null => false
-    t.datetime "updated_at",   :null => false
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
+    t.integer  "serial_iterator"
+  end
+
+  create_table "owners", :force => true do |t|
+    t.string   "name"
+    t.string   "address1"
+    t.string   "address2"
+    t.string   "city"
+    t.string   "state"
+    t.string   "postal"
+    t.string   "country"
+    t.integer  "airframe_id"
+    t.datetime "start"
+    t.datetime "end"
+    t.integer  "source_id"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
+  create_table "registers", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "rules", :force => true do |t|
+    t.string   "jd_make"
+    t.string   "jd_model"
+    t.string   "ex_make"
+    t.string   "ex_model"
+    t.integer  "source_id"
+    t.datetime "created_at",       :null => false
+    t.datetime "updated_at",       :null => false
+    t.string   "serial_prefix"
+    t.string   "suggested_prefix"
+  end
+
+  create_table "sources", :force => true do |t|
+    t.string   "name"
+    t.datetime "latest"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "translations", :force => true do |t|
+    t.integer  "jd_id"
+    t.string   "ex_id"
+    t.integer  "source_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
 end

@@ -34,4 +34,8 @@ Jetcrawler::Application.configure do
 
   # Expands the lines which load the assets
   config.assets.debug = true
+
+  # data files
+  config.faa_latest = "/data/faa/latest"
+  config.amstat_latest = "/data/amstat"
 end
