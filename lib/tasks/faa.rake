@@ -7,28 +7,28 @@ namespace :faa do
         open(Jetcrawler::Application.config.faa_latest + "/MASTER.txt") do |infile|
             infile.read.each_line do |row|
 
-                aircraft = row.split(",")
+                aircraft     = row.split(",")
 
-                registration      = "N"+aircraft[0].strip
-                serial            = aircraft[1].strip
-                af_mfg_code       = aircraft[2].strip      
-                eng_mfg_code      = aircraft[3].strip
-                year              = aircraft[4].strip.to_i
-                eng_type          = aircraft[19].strip.to_i
-                af_type           = aircraft[18].strip.to_i
-                cert_type         = aircraft[17].strip.to_i
+                registration = "N"+aircraft[0].strip
+                serial       = aircraft[1].strip
+                af_mfg_code  = aircraft[2].strip
+                eng_mfg_code = aircraft[3].strip
+                year         = aircraft[4].strip.to_i
+                eng_type     = aircraft[19].strip.to_i
+                af_type      = aircraft[18].strip.to_i
+                cert_type    = aircraft[17].strip.to_i
 
-                eng_count         = 0
-                af_model          = nil
-                af_make           = nil
-                eng_make          = nil
-                eng_model         = nil
+                eng_count    = 0
+                af_model     = nil
+                af_make      = nil
+                eng_make     = nil
+                eng_model    = nil
 
-                if (cert_type == 1) &&
-                    (year > 1980) && 
-                    (eng_type > 1) && 
-                    (eng_type < 6) && 
-                    (af_type > 3) && 
+                if (cert_type == 1) && # active certifications
+                    (year > 1980)   && 
+                    (eng_type > 1)  && # turboprops
+                    (eng_type < 6)  && # and jets
+                    (af_type > 3)   && # 12,500 lbs +
                     (af_type < 7)
 
                     acft_ref = open(Jetcrawler::Application.config.faa_latest + "/ACFTREF.txt")
@@ -68,52 +68,44 @@ namespace :faa do
                     # otherwise, try to create a translation	
                     if t.nil?
 
-                        # look for translation rule
-                        r = Rule.where(:source_id => 1, :ex_model => af_model, :ex_make => af_make).first
-                        if !r
-                            r = Rule.create(:suggested_prefix => serial, :ex_make => af_make, :ex_model => af_model, :source_id => 1)
-                            next
-                        else
-                            suggestion = ""
-                            serial.split(//).each_with_index do |a, i|		    
-                                break if !r.suggested_prefix[i] || a != r.suggested_prefix[i]
-                                suggestion << a
-                            end
-                            r.suggested_prefix = suggestion
-                            r.save
-                        end
+                        # create translation rule parameters
+                        ex_record_details = {
+                            :serial => serial,
+                            :source_id => 1, 
+                            :ex_model => af_model, 
+                            :ex_make => af_make
+                        }
 
-                        # if suitable rule available
-                        if r && !r.jd_make.nil? && !r.jd_model.nil?
-                            # remove prefix, letters and zero padding from serial
-                            sn_iterator = serial
-                            sn_iterator = sn_iterator.gsub(/^(#{r.serial_prefix})/, '') if r.serial_prefix
-                            sn_iterator = sn_iterator.gsub(/[^\d]/,'').to_i
-                            # use it to look for a specific airframe
-                            a = Airframe.where(:serial_iterator => sn_iterator, :make => r.jd_make, :model_name => r.jd_model).first		  
-                            # if no airframes exist in jetcraler db, create one
-                            a ||= Airframe.create(:serial_iterator => sn_iterator, :make => r.jd_make, :model_name => r.jd_model)
-                            # create the translation for future use
-                            t = Translation.create(:ex_id => ex_id, :source_id => 1, :jd_id => a.id) if a
-                        else
-                            next
-                        end
+                        # look for translation rule
+                        rule = Rule::Get_rule(ex_record_details)
+                        
+                        # create a blank rule if one does not yet exist
+                        # otherwise, update the suggested prefix field bsaed on an AND 
+                        # of this aircraft serial number and previous suggestion
+                        rule = Rule.create(ex_record_details.slice(:ex_modal, :ex_make, :source_id)) if !rule
+                        next if rule.match(serial).nil? 
+                        
+                        # use it to look for a specific airframe
+                        a =	rule.match(serial)
+                        
+                        # if no airframes exist in jetcrawler db, create one
+                        a ||= Airframe.create(:serial_iterator => rule.serial_integer(serial), :make => rule.jd_make, :model_name => rule.jd_model)
+                    
+                        # create the translation for future use
+                        t = Translation.create(:ex_id => ex_id, :source_id => 1, :jd_id => a.id) if a
 
                     end
 
                     # find aircraft from jetcrawler db
-                    a = Airframe.find(t.jd_id) if t.jd_id.present?
+                    a ||= Airframe.find(t.jd_id) if t.jd_id.present?
 
                     if a
-
-                        # update airframe
-                        #  new ownership
-                        #  airframe details
-                        a.serial = serial if !a.serial
-                        a.make = af_make if !a.make
-                        a.model = af_model if !a.model_name
-                        a.year = year if !a.year
-                        a.registration = registration if !a.registration
+                        # found the definitive airframe; update aircraft
+                        a.serial       = serial if !a.serial
+                        a.make         = af_make if !a.make
+                        a.model        = af_model if !a.model_name
+                        a.year         = year if !a.year
+                        a.registration = registration
                         a.save
 
                     end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121210063417) do
+ActiveRecord::Schema.define(:version => 20121212063342) do
 
   create_table "airframes", :force => true do |t|
     t.string   "make"
@@ -58,6 +58,9 @@ ActiveRecord::Schema.define(:version => 20121210063417) do
     t.datetime "updated_at",       :null => false
     t.string   "serial_prefix"
     t.string   "suggested_prefix"
+    t.integer  "min_sn"
+    t.integer  "max_sn"
+    t.boolean  "active"
   end
 
   create_table "sources", :force => true do |t|
