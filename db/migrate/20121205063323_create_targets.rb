@@ -1,0 +1,16 @@
+class CreateTargets < ActiveRecord::Migration
+  def change
+    create_table :targets do |t|
+      t.string :make
+      t.string :model_name
+      t.integer :ttaf
+      t.integer :tcaf
+      t.integer :year
+      t.string :serial
+      t.integer :serial_integer
+      t.string :registration
+
+      t.timestamps
+    end
+  end
+end

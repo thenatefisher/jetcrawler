@@ -1,0 +1,41 @@
+
+class AmstatEntry < JetCrawlerEntry
+
+    def create_collection
+
+        output = IO.read(Jetcrawler::Application.config.amstat_latest + "/MMS.csv").force_encoding("ISO-8859-1").encode("utf-8", replace: nil) 
+
+        return output
+        
+    end
+    
+    def source_valid?
+        true
+    end
+    
+    # entry point
+    def run
+               
+        # validate the entry class
+        return false if !all_green
+        
+        # run everything through mapper
+        create_collection.each_line do |row| 
+
+            aircraft = row.split(";") rescue next
+
+            next if aircraft[1].nil? ||
+                aircraft[2].nil? ||
+                aircraft[3].nil? ||
+                aircraft[4].nil? ||
+                aircraft[5].nil? 
+  
+            m = mapper_class.new(aircraft) 
+            m.run
+            
+        end
+        
+    end    
+
+end
+

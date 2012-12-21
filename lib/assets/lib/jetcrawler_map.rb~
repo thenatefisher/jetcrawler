@@ -1,0 +1,81 @@
+require 'digest/sha1'
+
+class JetCrawlerMap < JetCrawlerBase
+
+    # required input
+    def initialize(item)
+    
+        @item = item
+        
+    end
+    
+    # unique source identifier by folder name
+    def source_id
+    
+        Source.find_or_create_by_label(self.class.to_s[0..-4].upcase).id
+        
+    end
+    
+    # validate the source data meets min requirements
+    def source_valid?
+    
+        return false if @source_record.blank? ||
+                    @source_record.make.empty? ||
+                    @source_record.model_name.empty? ||
+                    @source_record.serial.empty?    
+                    
+        return true
+        
+    end
+        
+    # return a constant class name
+    def reduce_class
+    
+        eval self.class.to_s[0..-4].downcase.capitalize + "Reduce"
+        
+    end
+    
+    # is there a translation record?
+    # if not, is there a rule?
+    # create translation record
+    # else, create empty ClassRecommender rule and return empty hash
+    # all the hard work of creating a hash
+    # return a hash
+    def map
+        
+        # output a hash; empty by default
+        Hash.new 
+        
+    end
+    
+    # perform map operation
+    def run
+
+        # validate the map object
+        return false if !all_green
+        
+        # generate hash and reduce
+        r = reduce_class.new(@map_output)
+        #r.run 
+        
+    end
+    
+    # return boolean
+    def all_green
+        
+        # validate source data
+        all_green &= @item.blank?
+        all_green &= source_valid?
+        
+        # validate output
+        @map_output = map
+        all_green &= (@map_output.class == Hash)
+        all_green &= !@map_output.empty?
+        
+        # validate reducer class is available
+        all_green &= (defined? reduce_class == "constant")
+        all_green &= (reduce_class.class == Class)       
+        
+    end    
+
+end

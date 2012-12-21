@@ -1,0 +1,14 @@
+POST /listings/AircraftListings.aspx?searchId=2162078 HTTP/1.1
+Host: www.aso.com
+Connection: keep-alive
+Content-Length: 74636
+Origin: http://www.aso.com
+X-Requested-With: XMLHttpRequest
+User-Agent: Mozilla/5.0 (X11; Linux i686) AppleWebKit/536.11 (KHTML, like Gecko) Chrome/20.0.1132.47 Safari/536.11
+Content-Type: application/x-www-form-urlencoded; charset=UTF-8
+Accept: text/html, */*; q=0.01
+Referer: http://www.aso.com/listings/AircraftListings.aspx?searchId=2162078
+Accept-Encoding: gzip,deflate,sdch
+Accept-Language: en-US,en;q=0.8
+Accept-Charset: ISO-8859-1,utf-8;q=0.7,*;q=0.3
+Cookie: .ASPXANONYMOUS=0XoVSmQVzgEkAAAAMWE0ZjI2MzAtMzFmZC00MDYxLTg4OTktYjg2NzJkNTVjN2Q2x-cgsmLkHcf-n9pZ7DZvOBbXM3Y1; asoSessionID=i2do2k45iohnwsvkzavzaw45

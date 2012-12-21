@@ -37,6 +37,14 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.4.0)
+    columnize (0.3.6)
+    debugger (1.2.2)
+      columnize (>= 0.3.1)
+      debugger-linecache (~> 1.1.1)
+      debugger-ruby_core_source (~> 1.1.5)
+    debugger-linecache (1.1.2)
+      debugger-ruby_core_source (>= 1.1.1)
+    debugger-ruby_core_source (1.1.5)
     erubis (2.7.0)
     execjs (1.4.0)
       multi_json (~> 1.0)
@@ -55,6 +63,7 @@ GEM
     mime-types (1.19)
     multi_json (1.4.0)
     mysql2 (0.3.11)
+    nokogiri (1.5.5)
     pg (0.14.1)
     polyglot (0.3.3)
     rack (1.4.1)
@@ -110,9 +119,11 @@ PLATFORMS
 
 DEPENDENCIES
   coffee-rails (~> 3.2.1)
+  debugger
   jquery-rails
   libv8 (= 3.11.8.3)
   mysql2
+  nokogiri
   pg
   rails (= 3.2.9)
   sass-rails (~> 3.2.3)

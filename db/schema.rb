@@ -11,19 +11,21 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121212063342) do
+ActiveRecord::Schema.define(:version => 20121209214709) do
 
-  create_table "airframes", :force => true do |t|
-    t.string   "make"
-    t.string   "model_name"
-    t.integer  "tt"
-    t.integer  "tc"
-    t.integer  "year"
-    t.string   "serial"
-    t.string   "registration"
-    t.datetime "created_at",      :null => false
-    t.datetime "updated_at",      :null => false
-    t.integer  "serial_iterator"
+  create_table "classifiers", :force => true do |t|
+    t.string   "target_make"
+    t.string   "target_model"
+    t.string   "source_make"
+    t.string   "source_model"
+    t.string   "serial_prefix"
+    t.string   "suggested_prefix"
+    t.integer  "min_sn"
+    t.integer  "max_sn"
+    t.integer  "source_id"
+    t.boolean  "active"
+    t.datetime "created_at",       :null => false
+    t.datetime "updated_at",       :null => false
   end
 
   create_table "owners", :force => true do |t|
@@ -42,37 +44,30 @@ ActiveRecord::Schema.define(:version => 20121212063342) do
     t.datetime "updated_at",  :null => false
   end
 
-  create_table "registers", :force => true do |t|
-    t.string   "name"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-  end
-
-  create_table "rules", :force => true do |t|
-    t.string   "jd_make"
-    t.string   "jd_model"
-    t.string   "ex_make"
-    t.string   "ex_model"
-    t.integer  "source_id"
-    t.datetime "created_at",       :null => false
-    t.datetime "updated_at",       :null => false
-    t.string   "serial_prefix"
-    t.string   "suggested_prefix"
-    t.integer  "min_sn"
-    t.integer  "max_sn"
-    t.boolean  "active"
-  end
-
   create_table "sources", :force => true do |t|
     t.string   "name"
+    t.string   "label"
     t.datetime "latest"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
 
+  create_table "targets", :force => true do |t|
+    t.string   "make"
+    t.string   "model_name"
+    t.integer  "ttaf"
+    t.integer  "tcaf"
+    t.integer  "year"
+    t.string   "serial"
+    t.integer  "serial_integer"
+    t.string   "registration"
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
+  end
+
   create_table "translations", :force => true do |t|
-    t.integer  "jd_id"
-    t.string   "ex_id"
+    t.integer  "target_id"
+    t.string   "token"
     t.integer  "source_id"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false

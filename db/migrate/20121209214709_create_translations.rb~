@@ -1,8 +1,8 @@
 class CreateTranslations < ActiveRecord::Migration
   def change
     create_table :translations do |t|
-      t.integer :target_id
-      t.string :token
+      t.integer :jd_id
+      t.string :ex_id
       t.integer :source_id
 
       t.timestamps
