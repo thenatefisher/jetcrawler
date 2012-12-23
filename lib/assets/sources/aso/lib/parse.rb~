@@ -6,7 +6,6 @@ module AsoParse
     def AsoParse.parse(input)
             
         # fetch html
-        puts input
         html = open(input)
         # html = File.open(File.join(File.dirname(__FILE__), "..", "listing.html"))
         doc = Nokogiri::HTML(html)
