@@ -65,7 +65,7 @@ class AsoMap < JetCrawlerMap
             target_id_hash = {:target_id => translation.target_id }
             @source_record.merge! target_id_hash
         end
-        puts "#{@source_record[:make]} #{@source_record[:model]} #{@source_record[:serial]}"
+
         # send hash to reducer 
         return @source_record
         

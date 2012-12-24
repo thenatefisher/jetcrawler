@@ -36,6 +36,6 @@ Jetcrawler::Application.configure do
   config.assets.debug = true
 
   # data files
-  config.faa_latest = "/data/faa/latest"
-  config.amstat_latest = "/data/amstat"
+  config.registers = "/data/registers"
+  config.amstat = "/data/amstat"
 end

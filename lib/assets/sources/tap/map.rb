@@ -1,3 +1,5 @@
+require_relative "lib/parse"
+
 class TapMap < JetCrawlerMap
     include TapParse
         

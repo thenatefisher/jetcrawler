@@ -1,5 +1,18 @@
 class JetCrawlerEntry < JetCrawlerBase
     
+    def latest_database_date 
+    
+       Source.find(source_id).latest
+    
+    end
+    
+    # unique source identifier by folder name
+    def source_id
+    
+        Source.find_or_create_by_label(self.class.to_s[0..-6].upcase).id
+        
+    end
+    
     # return a constant class name
     def mapper_class
 
@@ -35,7 +48,7 @@ class JetCrawlerEntry < JetCrawlerBase
         
         # create_collection && mapper_class are good
         @collection = create_collection
-        create_collection.class.ancestors.include? Enumerable
+        @collection.class.ancestors.include? Enumerable
         mapper_class.class == Class
         
         

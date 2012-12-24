@@ -1,3 +1,5 @@
+require_relative "lib/parse"
+
 class AsoMap < JetCrawlerMap
     include AsoParse
         

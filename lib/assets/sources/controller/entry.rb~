@@ -1,10 +1,11 @@
 require 'nokogiri'
+require_relative "lib/fetch"
 
 class ControllerEntry < JetCrawlerEntry
     include FetchControllerIndex
     
     def create_collection
-        return []
+
         output = Array.new()
         
         for cat in [3,8]

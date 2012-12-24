@@ -1,3 +1,4 @@
+require_relative "lib/parse"
 class TapMap < JetCrawlerMap
     include TapParse
         
@@ -18,7 +19,7 @@ class TapMap < JetCrawlerMap
         
         # validate the source record
         return Hash.new if !source_valid?
-puts "SOURCE VALID"
+
         # create sha1 from URL
         token = Digest::SHA1.hexdigest(@item)
         

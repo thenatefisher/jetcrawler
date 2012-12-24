@@ -1,4 +1,5 @@
 require 'nokogiri'
+require_relative "lib/fetch"
 
 class ControllerEntry < JetCrawlerEntry
     include FetchControllerIndex
@@ -33,6 +34,9 @@ class ControllerEntry < JetCrawlerEntry
         # unique the output list
         output.uniq!
         
+        # record latest db date
+        self.latest_database_touch
+                  
         return output
         
     end

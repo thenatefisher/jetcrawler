@@ -5,6 +5,9 @@ class AmstatEntry < JetCrawlerEntry
 
         output = IO.read(Jetcrawler::Application.config.amstat_latest + "/MMS.csv").force_encoding("ISO-8859-1").encode("utf-8", replace: nil) 
 
+        # record latest db date
+        self.latest_database_touch
+
         return output
         
     end

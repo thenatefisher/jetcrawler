@@ -40,6 +40,9 @@ class TapEntry < JetCrawlerEntry
         # unique the output list
         output.uniq!
 
+        # record latest db date
+        self.latest_database_touch
+
         return output
         
     end

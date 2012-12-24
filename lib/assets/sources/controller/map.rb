@@ -1,3 +1,5 @@
+require_relative "lib/parse"
+
 class ControllerMap < JetCrawlerMap
     include ControllerParse
         

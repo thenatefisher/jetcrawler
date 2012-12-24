@@ -1,13 +1,13 @@
 class ControllerMap < JetCrawlerMap
-    #include AsoParse
+    include ControllerParse
         
     # parse html input, return type Target
     def parse_input
     
         # extract all the goodness from the aso aircraft page
-        #parsed_data = AsoParse::parse(@item) if !@item.blank?
-        #parsed_data ||= Hash.new
-        return {}
+        parsed_data = ControllerParse::parse(@item) if !@item.blank?
+        parsed_data ||= Hash.new
+
     end
     
     # return a hash of the source record
@@ -15,7 +15,7 @@ class ControllerMap < JetCrawlerMap
         
         # parse source data 
         @source_record = parse_input
-        puts @item
+
         # validate the source record
         return Hash.new if !source_valid?
 

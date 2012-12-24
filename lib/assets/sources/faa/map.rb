@@ -2,7 +2,13 @@ class FaaMap < JetCrawlerMap
         
     # parse html input, return type Target
     def parse_input
-
+        
+        latest_dir = File.expand_path(File.join(Jetcrawler::Application.config.registers, "faa", "latest"))
+        faa_master  = File.expand_path(File.join(latest_dir, "MASTER.txt"))
+        faa_dereg   = File.expand_path(File.join(latest_dir, "DEREG.txt"))
+        faa_engine  = File.expand_path(File.join(latest_dir, "ENGINE.txt"))
+        faa_acftref = File.expand_path(File.join(latest_dir, "ACFTREF.txt"))
+                
         registration = "N"+@item[0].strip
         serial       = @item[1].strip
         af_mfg_code  = @item[2].strip
@@ -27,8 +33,7 @@ class FaaMap < JetCrawlerMap
             (af_type > 3)   && # 12,500 lbs +
             (af_type < 7)
 
-            acft_ref = open(Jetcrawler::Application.config.faa_latest + "/ACFTREF.txt")
-            .grep(/#{af_mfg_code}/i).first
+            acft_ref = open(faa_acftref).grep(/#{af_mfg_code}/i).first
 
             if acft_ref 
                 acft_ref = acft_ref.split(",")
@@ -40,8 +45,7 @@ class FaaMap < JetCrawlerMap
                 end
             end
 
-            eng_ref = open(Jetcrawler::Application.config.faa_latest + "/ENGINE.txt")
-            .grep(/#{eng_mfg_code}/i).first
+            eng_ref = open(faa_engine).grep(/#{eng_mfg_code}/i).first
 
             if eng_ref 
                 eng_ref = eng_ref.split(",")

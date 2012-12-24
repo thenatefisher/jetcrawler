@@ -4,7 +4,7 @@ require 'uri'
 class AsoEntry < JetCrawlerEntry
 
     def create_collection
-        return []
+
         output = Array.new()
         
         # only turbo props and jets

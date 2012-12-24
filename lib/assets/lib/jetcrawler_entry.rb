@@ -1,5 +1,26 @@
 class JetCrawlerEntry < JetCrawlerBase
     
+    def latest_database_date 
+    
+       Source.find(source_id).latest
+    
+    end
+    
+    def latest_database_touch
+    
+      source = Source.find(source_id)
+      source.latest = Time.now
+      source.save
+    
+    end
+    
+    # unique source identifier by folder name
+    def source_id
+    
+        Source.find_or_create_by_label(self.class.to_s[0..-6].upcase).id
+        
+    end
+    
     # return a constant class name
     def mapper_class
 
