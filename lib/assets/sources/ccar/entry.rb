@@ -6,19 +6,12 @@ class FaaEntry < JetCrawlerEntry
         output = nil
         upload_date = DateTime.new
         
-        # check if new db exists
-        # from http://www.faa.gov/licenses_certificates/aircraft_certification/aircraft_registry/releasable_aircraft_download/
-        response = `curl "http://registry.faa.gov/aircraftdownload/"` rescue nil
-        db_file_url = response.match(/(http[^"]*)/)[1] rescue nil
-        upload_date_string = response.match(/UploadDate = "([^"]*)/)[1] rescue nil
-        upload_date = DateTime.strptime(upload_date_string, '%B %d, %Y') rescue DateTime.new
-        
-        if true || self.latest_database_date.blank? || self.latest_database_date < upload_date
-          
+        db_file_url = "http://wwwapps2.tc.gc.ca/Saf-Sec-Sur/2/ccarcs/download/ccarcsdb.zip"
+
           # store old database file if one exists
-          latest_dir = File.expand_path(File.join(Jetcrawler::Application.config.registers, "faa", "latest"))
+          latest_dir = File.expand_path(File.join(Jetcrawler::Application.config.registers, "ccar", "latest"))
           latest_file_path = File.expand_path(Dir.glob(File.join(latest_dir, "*.zip")).first) rescue nil
-          FileUtils.cp latest_file_path File.join(Jetcrawler::Application.config.registers, "faa", "archive", ".") rescue nil
+          FileUtils.cp latest_file_path File.join(Jetcrawler::Application.config.registers, "ccar", "archive", ".") rescue nil
           
           # remove old files
           FileUtils.rm Dir.glob(File.join(latest_dir, "*")) rescue nil
@@ -32,22 +25,18 @@ class FaaEntry < JetCrawlerEntry
           `unzip #{latest_file_path}`
 
           # ensure all files are present
-          faa_master  = File.expand_path(File.join(latest_dir, "MASTER.txt"))
-          faa_dereg   = File.expand_path(File.join(latest_dir, "DEREG.txt"))
-          faa_engine  = File.expand_path(File.join(latest_dir, "ENGINE.txt"))
-          faa_acftref = File.expand_path(File.join(latest_dir, "ACFTREF.txt"))
+          ccar_master  = File.expand_path(File.join(latest_dir, "Carscurr.txt"))
+          ccar_owner   = File.expand_path(File.join(latest_dir, "Carsownr.txt"))
                     
-          return output if !File.exists?(faa_master) ||
-            !File.exists?(faa_dereg) ||
-            !File.exists?(faa_engine) ||
-            !File.exists?(faa_acftref)
+          return output if !File.exists?(ccar_master) ||
+            !File.exists?ccar_owner)
                    
           # record latest db date
           self.latest_database_touch
           
           # read database file into mapper
-          faa_master_handler = File.open(faa_master)
-          output = faa_master_handler.read
+          master_handler = File.open(ccar_master)
+          output = master_handler.read
           
         end
         
@@ -63,11 +52,10 @@ class FaaEntry < JetCrawlerEntry
     def run
                
         # validate the entry class
-        collection = create_collection
-        return false if !all_green || collection.blank?
+        return false if !all_green || @collection.blank?
         
         # run everything through mapper
-        collection.each_line do |row| 
+        @collection.each_line do |row| 
 
             aircraft = row.split(",") rescue next
   

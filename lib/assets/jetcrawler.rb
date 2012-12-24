@@ -13,6 +13,9 @@
 # start the clock
 start_time = Time.now()
 
+# set rails env
+ENV["RAILS_ENV"] ||= "production"
+
 # use Rails models
 require File.dirname(__FILE__) + '/../../config/environment'
 
@@ -34,7 +37,7 @@ threads = Array.new
 Dir.entries(File.join(File.dirname(__FILE__), "sources")).each do |f|
 
    # skip if not a source folder
-   next if f == ".." || f == "." || f != "faa"
+   next if f == ".." || f == "." 
 
    # ensure that the entry class exists
    entryClassName = "#{f.downcase.capitalize}Entry"
@@ -47,7 +50,8 @@ Dir.entries(File.join(File.dirname(__FILE__), "sources")).each do |f|
        entry = entryClass.new
        
        # execute its run() method
-       threads << Thread.new{ entry.run }
+       #threads << Thread.new{ entry.run }
+       entry.run
    
    rescue
    

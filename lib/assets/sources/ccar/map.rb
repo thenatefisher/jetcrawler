@@ -1,60 +1,18 @@
-class FaaMap < JetCrawlerMap
+class CcarMap < JetCrawlerMap
         
     # parse html input, return type Target
     def parse_input
         
-        latest_dir = File.expand_path(File.join(Jetcrawler::Application.config.registers, "faa", "latest"))
-        faa_master  = File.expand_path(File.join(latest_dir, "MASTER.txt"))
-        faa_dereg   = File.expand_path(File.join(latest_dir, "DEREG.txt"))
-        faa_engine  = File.expand_path(File.join(latest_dir, "ENGINE.txt"))
-        faa_acftref = File.expand_path(File.join(latest_dir, "ACFTREF.txt"))
+        latest_dir = File.expand_path(File.join(Jetcrawler::Application.config.registers, "ccar", "latest"))
+        ccar_owner   = File.expand_path(File.join(latest_dir, "carsownr.txt"))
                 
-        registration = "N"+@item[0].strip
-        serial       = @item[1].strip
-        af_mfg_code  = @item[2].strip
-        eng_mfg_code = @item[3].strip
-        year         = @item[4].strip.to_i
-        eng_type     = @item[19].strip.to_i
-        af_type      = @item[18].strip.to_i
-        cert_type    = @item[17].strip.to_i
+        registration = "C"+@item[0].strip
+        serial       = @item[5].strip
+        make         = @item[3].strip
+        year         = @item[31].strip[0..4].to_i
+	model_name   = @item[4].strip
 
-        eng_count    = 0
-        af_model     = nil
-        af_make      = nil
-        eng_make     = nil
-        eng_model    = nil
-        
         source_data = Hash.new
-        
-        if (cert_type == 1) && # active certifications
-            (year > 1980)   && 
-            (eng_type > 1)  && # turboprops
-            (eng_type < 6)  && # and jets
-            (af_type > 3)   && # 12,500 lbs +
-            (af_type < 7)
-
-            acft_ref = open(faa_acftref).grep(/#{af_mfg_code}/i).first
-
-            if acft_ref 
-                acft_ref = acft_ref.split(",")
-                ref_code = acft_ref[0].strip
-                if (ref_code == af_mfg_code)
-                    make  = acft_ref[1].strip
-                    model_name = acft_ref[2].strip
-                    eng_count  = acft_ref[7].to_i
-                end
-            end
-
-            eng_ref = open(faa_engine).grep(/#{eng_mfg_code}/i).first
-
-            if eng_ref 
-                eng_ref = eng_ref.split(",")
-                ref_code = eng_ref[0].strip
-                if (ref_code == eng_mfg_code)
-                    eng_make = eng_ref[1].strip
-                    eng_model = eng_ref[2].strip
-                end
-            end
             
             source_data = {
                 :make =>make,
@@ -78,12 +36,6 @@ class FaaMap < JetCrawlerMap
                 :image_urls => {}
             } 
             
-        else
-        
-            return {}
-            
-        end
-        
         return source_data
         
     end
