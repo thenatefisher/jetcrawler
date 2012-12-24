@@ -63,11 +63,10 @@ class FaaEntry < JetCrawlerEntry
     def run
                
         # validate the entry class
-        collection = create_collection
-        return false if !all_green || collection.blank?
+        return false if !all_green || @collection.blank?
         
         # run everything through mapper
-        collection.each_line do |row| 
+        @collection.each_line do |row| 
 
             aircraft = row.split(",") rescue next
   

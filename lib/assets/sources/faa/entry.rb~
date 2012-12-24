@@ -16,7 +16,6 @@ class FaaEntry < JetCrawlerEntry
         if true || self.latest_database_date.blank? || self.latest_database_date < upload_date
           
           # store old database file if one exists
-          
           latest_dir = File.expand_path(File.join(Jetcrawler::Application.config.registers, "faa", "latest"))
           latest_file_path = File.expand_path(Dir.glob(File.join(latest_dir, "*.zip")).first) rescue nil
           FileUtils.cp latest_file_path File.join(Jetcrawler::Application.config.registers, "faa", "archive", ".") rescue nil
@@ -64,11 +63,10 @@ class FaaEntry < JetCrawlerEntry
     def run
                
         # validate the entry class
-        collection = create_collection
-        return false if !all_green || collection.blank?
+        return false if !all_green || @collection.blank?
         
         # run everything through mapper
-        collection.each_line do |row| 
+        @collection.each_line do |row| 
 
             aircraft = row.split(",") rescue next
   
