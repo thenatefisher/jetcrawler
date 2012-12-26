@@ -20,9 +20,9 @@ class JetCrawlerMap < JetCrawlerBase
     def source_valid?
     
         return false if @source_record.blank? ||
-                    @source_record.make.empty? ||
-                    @source_record.model_name.empty? ||
-                    @source_record.serial.empty?    
+                    @source_record[:make].blank? ||
+                    @source_record[:model_name].blank? ||
+                    @source_record[:serial].blank?    
                     
         return true
         

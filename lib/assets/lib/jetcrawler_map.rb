@@ -56,7 +56,7 @@ class JetCrawlerMap < JetCrawlerBase
         
         # generate hash and reduce
         r = reduce_class.new(@map_output)
-        #r.run 
+        r.run 
         
     end
     

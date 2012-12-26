@@ -8,6 +8,24 @@ class JetCrawlerReduce < JetCrawlerBase
     # source expiration
     # creates a change or discrepency record
     # updates target
-    # profanity fitler
+    # profanity filter
+    # required input
+    
+    def initialize(item)
+    
+        @item = item
+        
+    end
+    
+    # unique source identifier by folder name
+    def source_id
+    
+        Source.find_or_create_by_label(self.class.to_s[0..-7].upcase).id
+        
+    end     
+    
+    def run
+    
+    end   
 
 end

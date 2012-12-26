@@ -46,7 +46,7 @@ module ControllerParse
                 :interior => nil, 
                 :exterior => nil, 
                 :inspection => nil, 
-                :owner => {},      
+                :owners => {},      
                 :seller => {},
                 :engines => {},
                 :image_urls => {}
