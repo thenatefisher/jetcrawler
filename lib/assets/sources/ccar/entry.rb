@@ -1,4 +1,4 @@
-class FaaEntry < JetCrawlerEntry
+class CcarEntry < JetCrawlerEntry
 
     def create_collection
 
@@ -29,7 +29,7 @@ class FaaEntry < JetCrawlerEntry
           ccar_owner   = File.expand_path(File.join(latest_dir, "Carsownr.txt"))
                     
           return output if !File.exists?(ccar_master) ||
-            !File.exists?ccar_owner)
+            !File.exists?(ccar_owner)
                    
           # record latest db date
           self.latest_database_touch
@@ -38,7 +38,6 @@ class FaaEntry < JetCrawlerEntry
           master_handler = File.open(ccar_master)
           output = master_handler.read
           
-        end
         
         return output
         
@@ -63,8 +62,8 @@ class FaaEntry < JetCrawlerEntry
             m.run
             
         end
-        
-    end    
+       end
+ 
+end    
 
-end
 

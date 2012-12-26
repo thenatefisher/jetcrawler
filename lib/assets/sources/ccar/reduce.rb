@@ -1,4 +1,4 @@
-class FaaReduce < JetCrawlerReduce
+class CcarReduce < JetCrawlerReduce
 
     # receives a hash from the mapper class
     
