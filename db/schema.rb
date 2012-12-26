@@ -11,7 +11,16 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121209214709) do
+ActiveRecord::Schema.define(:version => 20121226151133) do
+
+  create_table "changes", :force => true do |t|
+    t.integer  "source_id"
+    t.string   "field"
+    t.text     "value"
+    t.integer  "conflict_id"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
 
   create_table "classifiers", :force => true do |t|
     t.string   "target_make"
@@ -26,6 +35,14 @@ ActiveRecord::Schema.define(:version => 20121209214709) do
     t.boolean  "active"
     t.datetime "created_at",       :null => false
     t.datetime "updated_at",       :null => false
+  end
+
+  create_table "field_priorities", :force => true do |t|
+    t.string   "field"
+    t.integer  "priority"
+    t.integer  "source_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "owners", :force => true do |t|
@@ -63,6 +80,7 @@ ActiveRecord::Schema.define(:version => 20121209214709) do
     t.string   "registration"
     t.datetime "created_at",     :null => false
     t.datetime "updated_at",     :null => false
+    t.integer  "jetdeck_id"
   end
 
   create_table "translations", :force => true do |t|
