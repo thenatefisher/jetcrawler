@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  field: MyString
+  priority: 1
+  source_id: 1
+
+two:
+  field: MyString
+  priority: 1
+  source_id: 1
