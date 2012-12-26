@@ -13,8 +13,16 @@
 # start the clock
 start_time = Time.now()
 
+# cancel if jetcrawler is already running
+ps_aux = `ps aux | grep "ruby jetcrawler.rb" | wc -l`
+if ps_aux.to_i > 3
+  puts "Another instance of JetCrawler is already running"
+  return
+end
+
 # set rails env
-ENV["RAILS_ENV"] ||= "production"
+ENV["RAILS_ENV"] = ARGV[0]
+ENV["RAILS_ENV"] ||= "development"
 
 # use Rails models
 require File.dirname(__FILE__) + '/../../config/environment'
@@ -37,7 +45,7 @@ threads = Array.new
 Dir.entries(File.join(File.dirname(__FILE__), "sources")).each do |f|
 
    # skip if not a source folder
-   next if f == ".." || f == "." || f == "ccar"
+   next if f == ".." || f == "."
 
    # ensure that the entry class exists
    entryClassName = "#{f.downcase.capitalize}Entry"
@@ -53,10 +61,10 @@ Dir.entries(File.join(File.dirname(__FILE__), "sources")).each do |f|
        #threads << Thread.new{ entry.run }
        entry.run
    
-   rescue
+   rescue => e
    
         # this source had a problem running
-        puts "Did not harvest from: #{f}"
+        puts "Did not harvest from: #{f} (#{e.message})"
         next
    
    end
@@ -64,7 +72,9 @@ Dir.entries(File.join(File.dirname(__FILE__), "sources")).each do |f|
 end
 
 # join all threads
-threads.each {|t| t.join}
+#threads.each {|t| t.join}
+
+# synchronize results to JetDeck
 
 # print finished message
 puts "Jetcrawl Completed in #{((Time.now() - start_time)/60).to_i} minutes at #{Time.now}"

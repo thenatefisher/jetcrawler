@@ -3,7 +3,10 @@ class AmstatEntry < JetCrawlerEntry
 
     def create_collection
 
-        output = IO.read(Jetcrawler::Application.config.amstat_latest + "/MMS.csv").force_encoding("ISO-8859-1").encode("utf-8", replace: nil) 
+        output = IO.read(Jetcrawler::Application.config.amstat + "/MMS.csv").force_encoding("ISO-8859-1").encode("utf-8", replace: nil) 
+
+        # record latest db date
+        self.latest_database_touch
 
         return output
         
@@ -18,9 +21,9 @@ class AmstatEntry < JetCrawlerEntry
                
         # validate the entry class
         return false if !all_green
-        
+
         # run everything through mapper
-        create_collection.each_line do |row| 
+        @collection.each_line do |row| 
 
             aircraft = row.split(";") rescue next
 

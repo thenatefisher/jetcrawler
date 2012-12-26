@@ -21,15 +21,15 @@ class FaaEntry < JetCrawlerEntry
           FileUtils.cp latest_file_path File.join(Jetcrawler::Application.config.registers, "faa", "archive", ".") rescue nil
           
           # remove old files
-          FileUtils.rm Dir.glob(File.join(latest_dir, "*")) rescue nil
+          #FileUtils.rm Dir.glob(File.join(latest_dir, "*")) rescue nil
           
           # get latest database archive
           Dir.chdir(latest_dir)
-          `wget #{db_file_url}`
+          #`wget #{db_file_url}`
           
           # unpack it
           latest_file_path = File.expand_path(Dir.glob(File.join(latest_dir, "*.zip")).first)
-          `unzip #{latest_file_path}`
+          `unzip -o #{latest_file_path}`
 
           # ensure all files are present
           faa_master  = File.expand_path(File.join(latest_dir, "MASTER.txt"))

@@ -56,26 +56,58 @@ class FaaMap < JetCrawlerMap
                 end
             end
             
+            engines = Array.new
+            eng_count.times do |i|
+            
+              engine = {
+                :make => eng_make,
+                :model_name => eng_model
+              }
+              
+              engines << engine
+            
+            end
+                  
+            owners = Array.new
+
+            type    = @item[5].strip.to_i
+            type    = 2 if type > 1
+            name    = @item[6].strip
+            street1 = @item[7].strip
+            street2 = @item[8].strip
+            county  = @item[14].strip
+            city    = @item[9].strip
+            state   = @item[10].strip
+            postal  = @item[11].strip
+            region  = @item[12].strip     
+            
+            primary_owner = {
+              :type => type,
+              :name => name,
+              :street1 => street1,
+              :street2 => street2,
+              :county => county,
+              :city => city,
+              :state => state,
+              :postal => postal,
+              :region => region
+            }
+            
+            owners << primary_owner
+            owners << {:name => @item[24].strip} if !@item[24].strip.blank?
+            owners << {:name => @item[25].strip} if !@item[25].strip.blank?
+            owners << {:name => @item[26].strip} if !@item[26].strip.blank?
+            owners << {:name => @item[27].strip} if !@item[27].strip.blank?
+            owners << {:name => @item[28].strip} if !@item[28].strip.blank?
+                      
             source_data = {
                 :make =>make,
                 :model_name => model_name,
                 :serial => serial,
                 :registration => registration,
                 :year => year,
-                :ttaf => nil,
-                :tcaf => nil,
-                :price => nil,   
-                :location => nil,
-                :equipment => {},
-                :avionics => {},  
-                :description => nil, 
-                :interior => nil, 
-                :exterior => nil, 
-                :inspection => nil, 
-                :owner => {},      
-                :seller => {},
-                :engines => {},
-                :image_urls => {}
+                :owners => owners,
+                :engines => engines
             } 
             
         else
@@ -83,7 +115,7 @@ class FaaMap < JetCrawlerMap
             return {}
             
         end
-        
+
         return source_data
         
     end

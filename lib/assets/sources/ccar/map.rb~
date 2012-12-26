@@ -81,6 +81,8 @@ class CcarMap < JetCrawlerMap
 
        end
        
+       puts source_data.inspect
+       
        return source_data
         
     end
