@@ -43,7 +43,7 @@ class JetCrawlerEntry < JetCrawlerBase
         return false if !all_green
         
         progress = ProgressBar.create(
-          :title => self.class.to_s[0..-6],
+          :title => "Mapping " + self.class.to_s[0..-6],
           :total => @collection.count)        
         
         # run everything through mapper
@@ -62,9 +62,10 @@ class JetCrawlerEntry < JetCrawlerBase
         
         # create_collection && mapper_class are good
         @collection = create_collection
-        @collection.class.ancestors.include? Enumerable
-        mapper_class.class == Class
-        
+        #green = @collection.class.ancestors.include? Enumerable
+        #mapper_class.class == Class
+
+        return true
         
     end
     

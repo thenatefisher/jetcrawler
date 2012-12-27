@@ -18,14 +18,14 @@ class AmstatEntry < JetCrawlerEntry
     
     # entry point
     def run
-               
+              
         # validate the entry class
         return false if !all_green
 
         progress = ProgressBar.create(
           :title => "Mapping " + self.class.to_s[0..-6],
-          :total => @collection.count)  
-          
+          :total => @collection.split("\n").count)  
+
         # run everything through mapper
         @collection.each_line do |row| 
 

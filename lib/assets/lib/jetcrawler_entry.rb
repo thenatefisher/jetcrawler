@@ -65,7 +65,6 @@ class JetCrawlerEntry < JetCrawlerBase
         @collection.class.ancestors.include? Enumerable
         mapper_class.class == Class
         
-        
     end
     
     

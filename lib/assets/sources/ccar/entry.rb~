@@ -39,6 +39,10 @@ class CcarEntry < JetCrawlerEntry
           # read database file into mapper
           output = IO.read(ccar_master).force_encoding("ISO-8859-1").encode("utf-8", replace: nil);
           
+        else
+          
+          puts "Local DB is not due for check, skipping"
+        
         end
         
         return output
