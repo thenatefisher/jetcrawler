@@ -20,11 +20,11 @@ class CcarEntry < JetCrawlerEntry
           
           # get latest database archive
           Dir.chdir(latest_dir)
-          `wget #{db_file_url}`
+          `wget #{db_file_url} 2> /dev/null`
           
           # unpack it
           latest_file_path = File.expand_path(Dir.glob(File.join(latest_dir, "*.zip")).first)
-          `unzip -o #{latest_file_path}`
+          `unzip -o #{latest_file_path} 2> /dev/null`
 
           # ensure all files are present
           ccar_master  = File.expand_path(File.join(latest_dir, "carscurr.txt"))
@@ -39,6 +39,10 @@ class CcarEntry < JetCrawlerEntry
           # read database file into mapper
           output = IO.read(ccar_master).force_encoding("ISO-8859-1").encode("utf-8", replace: nil);
           
+        else
+          
+          puts "Local DB is not due for check, skipping"
+        
         end
         
         return output
@@ -55,6 +59,10 @@ class CcarEntry < JetCrawlerEntry
         # validate the entry class
         return false if !all_green
         
+        progress = ProgressBar.create(
+          :title => "Mapping " + self.class.to_s[0..-6],
+          :total => @collection.count)  
+                  
         # run everything through mapper
         @collection.each_line do |row| 
 
@@ -62,9 +70,14 @@ class CcarEntry < JetCrawlerEntry
 
             m = mapper_class.new(aircraft) 
             m.run
+            
+            progress.increment
 
         end
-       end
+        
+        progress.finish
+        
+    end
  
 end    
 

@@ -7,7 +7,7 @@ module TapParse
         begin
             
             # get the session id we need for a page request
-            cookie_data =  `curl -I "http://www.trade-a-plane.com"`
+            cookie_data =  `curl -I "http://www.trade-a-plane.com" 2> /dev/null`
             cookie      =  cookie_data.match(/SESSION_ID=[^;]*/)[0]
             cookie      += "; ACTIVESUB=0;"
             agent       =  "Mozilla/5.0 (X11; Ubuntu; Linux i686; rv:17.0) Gecko/20100101 Firefox/17.0"
@@ -20,6 +20,7 @@ module TapParse
             command +=  " -H \"User-Agent: #{agent}\""
             command +=  " --cookie \"#{cookie}\""            
             command +=  " --compressed \"#{input}\""
+            command +=  " 2> /dev/null"
             
             # fetch html
             html = `#{command}`
@@ -47,16 +48,16 @@ module TapParse
                 :tcaf => tcaf,
                 :price => price,   
                 :location => location,
-                :equipment => {},
-                :avionics => {},  
+                :equipment => nil,
+                :avionics => nil,  
                 :description => nil, 
                 :interior => nil, 
                 :exterior => nil, 
                 :inspection => nil, 
-                :owner => {},      
-                :seller => {},
-                :engines => {},
-                :image_urls => {}
+                :owners => [],      
+                :seller => nil,
+                :engines => [],
+                :image_urls => []
             } 
         
         rescue

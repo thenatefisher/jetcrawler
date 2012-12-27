@@ -36,7 +36,7 @@ module TapParse
             tcaf = nil
             location = nil
             
-            return a hash      
+            # return a hash      
             source_data = {
                 :make =>make,
                 :model_name => model_name,
@@ -47,16 +47,16 @@ module TapParse
                 :tcaf => tcaf,
                 :price => price,   
                 :location => location,
-                :equipment => {},
-                :avionics => {},  
+                :equipment => nil,
+                :avionics => nil,  
                 :description => nil, 
                 :interior => nil, 
                 :exterior => nil, 
                 :inspection => nil, 
-                :owner => {},      
-                :seller => {},
-                :engines => {},
-                :image_urls => {}
+                :owners => [],      
+                :seller => nil,
+                :engines => [],
+                :image_urls => []
             } 
         
         rescue

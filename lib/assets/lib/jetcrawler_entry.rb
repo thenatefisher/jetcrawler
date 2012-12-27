@@ -38,16 +38,22 @@ class JetCrawlerEntry < JetCrawlerBase
     
     # entry point
     def run
-        
+
         # validate the entry class
         return false if !all_green
+        
+        progress = ProgressBar.create(
+          :title => "Mapping " + self.class.to_s[0..-6],
+          :total => @collection.count)        
         
         # run everything through mapper
         @collection.each_with_index do |item, index| 
             m = mapper_class.new(item) 
             m.run
-            @progress = (index / @collection.count).to_i.to_s + "%"
+            progress.increment
         end
+        
+        progress.finish
         
     end
     

@@ -20,6 +20,7 @@ end
 
 gem 'jquery-rails'
 gem 'nokogiri'
+gem 'ruby-progressbar'
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'

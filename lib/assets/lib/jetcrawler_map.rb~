@@ -50,10 +50,10 @@ class JetCrawlerMap < JetCrawlerBase
     
     # perform map operation
     def run
-
+        puts "\tMap"
         # validate the map object
         return false if !all_green
-        puts "pre run"
+
         # generate hash and reduce
         r = reduce_class.new(@map_output)
         r.run 

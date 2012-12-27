@@ -28,7 +28,7 @@ module ControllerParse
 
             price = page_details[:Price].gsub!(/[^\d]/, "") rescue nil
             ttaf = page_details[:TotalTime].gsub!(/[^\d]/, "") rescue nil
-            location = page_details[:Location]
+            location = page_details[:Location].capitalize rescue nil
             
             source_data = {
                 :make =>make,
@@ -40,16 +40,16 @@ module ControllerParse
                 :tcaf => nil,
                 :price => price,   
                 :location => location,
-                :equipment => {},
-                :avionics => {},  
+                :equipment => nil,
+                :avionics => nil,  
                 :description => nil, 
                 :interior => nil, 
                 :exterior => nil, 
                 :inspection => nil, 
-                :owners => {},      
-                :seller => {},
-                :engines => {},
-                :image_urls => {}
+                :owners => [],      
+                :seller => nil,
+                :engines => [],
+                :image_urls => []
             } 
         
         rescue

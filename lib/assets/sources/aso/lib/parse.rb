@@ -37,7 +37,7 @@ module AsoParse
             begin
             ttaf_loc = doc.css(".adSpecView-header-RegSerialPrice")[2].css("span")
             ttaf = ttaf_loc[0].content.gsub(/[^\d]/, "") rescue nil
-            location = ttaf_loc[1].content[10..-1] rescue nil
+            location = ttaf_loc[1].content[10..-1].capitalize rescue nil
             rescue 
             end
             
@@ -58,16 +58,16 @@ module AsoParse
                 :tcaf => tcaf,
                 :price => price,   
                 :location => location,
-                :equipment => {},
-                :avionics => {},  
+                :equipment => nil,
+                :avionics => nil,  
                 :description => nil, 
                 :interior => nil, 
                 :exterior => nil, 
                 :inspection => nil, 
-                :owner => {},      
-                :seller => {},
-                :engines => {},
-                :image_urls => {}
+                :owners => [],      
+                :seller => nil,
+                :engines => [],
+                :image_urls => []
             } 
             
         rescue

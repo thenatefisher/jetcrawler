@@ -7,7 +7,7 @@ class TapEntry < JetCrawlerEntry
         output = Array.new()
 
         # only turbo props and jets
-        cookie_data = `curl -I "http://www.trade-a-plane.com"`
+        cookie_data = `curl -I "http://www.trade-a-plane.com" 2> /dev/null`
         cookie = cookie_data.match(/SESSION_ID=[^;]*/)[0]
         cookie += "; ACTIVESUB=0;"
         agent       = "Mozilla/5.0 (X11; Ubuntu; Linux i686; rv:17.0) Gecko/20100101 Firefox/17.0"
@@ -39,6 +39,9 @@ class TapEntry < JetCrawlerEntry
         
         # unique the output list
         output.uniq!
+
+        # record latest db date
+        self.latest_database_touch
 
         return output
         

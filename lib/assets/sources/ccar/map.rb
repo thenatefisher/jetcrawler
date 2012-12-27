@@ -22,7 +22,7 @@ class CcarMap < JetCrawlerMap
             @item[15] == "Turbo Shaft"
           )
 
-          registration   = "C"+@item[0]
+          registration   = "C-"+@item[0]
           serial         = @item[6]
           make           = @item[3]
           year           = @item[31][0..4].to_i rescue nil

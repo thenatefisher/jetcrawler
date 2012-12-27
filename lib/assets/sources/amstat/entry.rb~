@@ -22,6 +22,10 @@ class AmstatEntry < JetCrawlerEntry
         # validate the entry class
         return false if !all_green
 
+        progress = ProgressBar.create(
+          :title => self.class.to_s[0..-6],
+          :total => @collection.count)  
+          
         # run everything through mapper
         @collection.each_line do |row| 
 
@@ -36,7 +40,11 @@ class AmstatEntry < JetCrawlerEntry
             m = mapper_class.new(aircraft) 
             m.run
             
+            progress.increment
+            
         end
+        
+        progress.finish
         
     end    
 

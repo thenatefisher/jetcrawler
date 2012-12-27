@@ -59,6 +59,8 @@ Dir.entries(File.join(File.dirname(__FILE__), "sources")).each do |f|
        
        # execute its run() method
        #threads << Thread.new{ entry.run }
+       
+       puts "Running #{entryClassName}..."
        entry.run
    
    rescue => e

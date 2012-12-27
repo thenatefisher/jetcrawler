@@ -23,7 +23,7 @@ class JetCrawlerReduce < JetCrawlerBase
     # profanity filter
     # required input   
     def run
-    
+
       # get target record
       target = Target.find(@item[:target_id])
       return false if target.blank?

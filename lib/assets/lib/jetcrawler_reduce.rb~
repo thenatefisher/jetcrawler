@@ -41,10 +41,9 @@ class JetCrawlerReduce < JetCrawlerBase
         
         # target_id is not a parameter to update
         # MMS and Year are not to be udpated
-        # also, don't handle owners, engines, images
         whitelist = ["description", "equipment", "avionics", "ttaf", "tcaf", 
           "price", "registration", "location", "inspection", "interior", 
-          "exterior", "seller", "damage", "engines"]
+          "exterior", "seller", "damage", "engines", "owners"]
           
         next if !whitelist.include?(k)
 

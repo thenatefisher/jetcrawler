@@ -8,7 +8,7 @@ module FetchControllerIndex
 
     def FetchControllerIndex.fetch_cdc(url)
 
-        doc = `curl --user-agent "Mozilla/5.0 (X11; Linux i686) AppleWebKit/536.11 (KHTML, like Gecko) Chrome/20.0.1132.47 Safari/536.11" "#{url}"  2> /dev/null`
+        doc = `curl --user-agent "Mozilla/5.0 (X11; Linux i686) AppleWebKit/536.11 (KHTML, like Gecko) Chrome/20.0.1132.47 Safari/536.11" "#{url}"`
 
         begin 
             table   = doc.match(/table = \"(.*)\"/)[1]
@@ -73,7 +73,7 @@ module FetchControllerIndex
         tS40436f_75 = self.decode_string(prefix + ":" + chlg.to_s + ":" + slt.to_s + ":" + crc.to_s)
         tS40436f_rf = "http://www.controller.com/"
         
-        content = `curl -i -F "tS40436f_id=3&tS40436f_md=1&tS40436f_rf=0&tS40436f_ct=0&tS40436f_pd=0&tS40436f_75=#{tS40436f_75}" --user-agent "User-Agent:Mozilla/5.0 (X11; Linux i686) AppleWebKit/536.11 (KHTML, like Gecko) Chrome/20.0.1132.47 Safari/536.11" "#{url}" 2> /dev/null`
+        content = `curl -i -F "tS40436f_id=3&tS40436f_md=1&tS40436f_rf=0&tS40436f_ct=0&tS40436f_pd=0&tS40436f_75=#{tS40436f_75}" --user-agent "User-Agent:Mozilla/5.0 (X11; Linux i686) AppleWebKit/536.11 (KHTML, like Gecko) Chrome/20.0.1132.47 Safari/536.11" "#{url}"`
         
     end
     
