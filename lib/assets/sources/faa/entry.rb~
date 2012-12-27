@@ -18,19 +18,26 @@ class FaaEntry < JetCrawlerEntry
           # store old database file if one exists
           latest_dir = File.expand_path(File.join(Jetcrawler::Application.config.registers, "faa", "latest"))
           latest_file_path = File.expand_path(Dir.glob(File.join(latest_dir, "*.zip")).first) rescue nil
-          FileUtils.cp latest_file_path File.join(Jetcrawler::Application.config.registers, "faa", "archive", ".") rescue nil
+          latest_file_name = latest_file_path.match(/\/([^\/]*)$/)[1] rescue nil
+          remote_file_name = db_file_url.match(/\/([^\/]*)$/)[1] rescue nil
           
-          # remove old files
-          #FileUtils.rm Dir.glob(File.join(latest_dir, "*")) rescue nil
+          if latest_file_name != remote_file_name
           
-          # get latest database archive
-          Dir.chdir(latest_dir)
-          #`wget #{db_file_url}`
+            FileUtils.cp latest_file_path File.join(Jetcrawler::Application.config.registers, "faa", "archive", ".") rescue nil
+            
+            # remove old files
+            FileUtils.rm Dir.glob(File.join(latest_dir, "*")) rescue nil
+            
+            # get latest database archive
+            Dir.chdir(latest_dir)
+            `wget #{db_file_url}`
+            
+            # unpack it
+            latest_file_path = File.expand_path(Dir.glob(File.join(latest_dir, "*.zip")).first)
+            `unzip -o #{latest_file_path}`
+            
+          end
           
-          # unpack it
-          latest_file_path = File.expand_path(Dir.glob(File.join(latest_dir, "*.zip")).first)
-          `unzip -o #{latest_file_path}`
-
           # ensure all files are present
           faa_master  = File.expand_path(File.join(latest_dir, "MASTER.txt"))
           faa_dereg   = File.expand_path(File.join(latest_dir, "DEREG.txt"))

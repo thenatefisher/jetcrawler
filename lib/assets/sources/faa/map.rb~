@@ -115,8 +115,7 @@ class FaaMap < JetCrawlerMap
             return {}
             
         end
-        
-        puts source_data.inspect
+
         return source_data
         
     end
@@ -180,7 +179,7 @@ class FaaMap < JetCrawlerMap
             target_id_hash = {:target_id => translation.target_id }
             @source_record.merge! target_id_hash
         end
-
+puts "good studff"
         # send hash to reducer 
         return @source_record
         

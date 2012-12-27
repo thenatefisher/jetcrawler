@@ -23,7 +23,7 @@ class JetCrawlerMap < JetCrawlerBase
                     @source_record[:make].blank? ||
                     @source_record[:model_name].blank? ||
                     @source_record[:serial].blank?    
-                    
+        
         return true
         
     end
@@ -53,29 +53,27 @@ class JetCrawlerMap < JetCrawlerBase
 
         # validate the map object
         return false if !all_green
-        
+        puts "pre run"
         # generate hash and reduce
         r = reduce_class.new(@map_output)
-        #r.run 
+        r.run 
         
     end
     
     # return boolean
     def all_green
-        
-        # validate source data
-        all_green &= @item.blank?
-        all_green &= source_valid?
-        
+
+        # validate input data
+        all_green = !@item.blank?
+
         # validate output
         @map_output = map
         all_green &= (@map_output.class == Hash)
         all_green &= !@map_output.empty?
-        
+
         # validate reducer class is available
-        all_green &= (defined? reduce_class == "constant")
-        all_green &= (reduce_class.class == Class)       
-        
+        all_green &= (reduce_class.class == Class)   
+
     end    
 
 end

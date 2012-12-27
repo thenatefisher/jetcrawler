@@ -45,7 +45,7 @@ threads = Array.new
 Dir.entries(File.join(File.dirname(__FILE__), "sources")).each do |f|
 
    # skip if not a source folder
-   next if f == ".." || f == "." || f != "faa"
+   next if f == ".." || f == "."
 
    # ensure that the entry class exists
    entryClassName = "#{f.downcase.capitalize}Entry"

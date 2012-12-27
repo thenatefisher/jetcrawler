@@ -6,15 +6,15 @@ class Classifier < ActiveRecord::Base
                     
     attr_accessor   :serial
 
-    before_create :init
+    before_create   :init
     
-    validate :validate_window
+    validate        :validate_window
     
     # set object defaults
     def init
         active ||= false
-        min_sn ||= 0 
-        max_sn ||= 999999 
+        min_sn ||= 0
+        max_sn ||= 999999
     end
     
     # has a target make and model been added to this rule?
@@ -25,13 +25,13 @@ class Classifier < ActiveRecord::Base
     # find and return the target record based
     # on this classifier data and a serial number 
     def match_target_by_serial
-    
-        Target.where(
+
+        t = Target.where(
             :serial_integer => serial_integer(serial), 
             :make => target_make,
             :model_name => target_model
-        ) if filled? && active
-    
+        ).first if filled? && active
+        
     end
     
     # create a new target record if this classifier is
@@ -47,8 +47,11 @@ class Classifier < ActiveRecord::Base
                         :serial_integer => serial_integer(serial),
                         :serial => serial}
                     
-        target = Target.where(target_params) || Target.create(target_params)
-        
+        target = Target.where(target_params).first
+        target ||= Target.create(target_params)
+
+        return target
+
     end
 
     # Static Method - attempt to find a classifier rule from the source

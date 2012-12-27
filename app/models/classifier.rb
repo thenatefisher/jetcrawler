@@ -6,15 +6,15 @@ class Classifier < ActiveRecord::Base
                     
     attr_accessor   :serial
 
-    before_create :init
+    before_create   :init
     
-    validate :validate_window
+    validate        :validate_window
     
     # set object defaults
     def init
         active ||= false
-        min_sn ||= 0 
-        max_sn ||= 999999 
+        min_sn ||= 0
+        max_sn ||= 999999
     end
     
     # has a target make and model been added to this rule?
@@ -114,8 +114,8 @@ class Classifier < ActiveRecord::Base
             break if !suggested_prefix[i] || a != suggested_prefix[i]
             suggestion << a
         end
-        suggested_prefix = suggestion
-        save
+        self.suggested_prefix = suggestion
+        self.save
 
     end
         
