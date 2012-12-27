@@ -8,6 +8,10 @@ class ControllerEntry < JetCrawlerEntry
 
         output = Array.new()
         
+        progress = ProgressBar.create(
+          :title => "Building Index",
+          :total => 30)  
+          
         for cat in [3,8]
         
             # only turbo props and jets
@@ -26,6 +30,8 @@ class ControllerEntry < JetCrawlerEntry
                 doc.css(".onelinelistrow, .onelinelistaltrow").each do |row|
                     output << "http://www.controller.com" + row.css("td:nth-child(2) a").attr("href").content rescue nil
                 end
+                
+                progress.increment
 
             end while (current_page == i.to_s)
         
@@ -36,6 +42,8 @@ class ControllerEntry < JetCrawlerEntry
         
         # record latest db date
         self.latest_database_touch
+        
+        progress.finish
                   
         return output
         

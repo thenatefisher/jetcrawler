@@ -16,6 +16,9 @@ class AsoEntry < JetCrawlerEntry
             output << "http://www.aso.com/listings/" + item.attr("href")
         end
         
+        progress = ProgressBar.create(
+          :title => "Building Index",
+          :total => 30)        
     
         while next_page_available(doc)
             
@@ -29,6 +32,8 @@ class AsoEntry < JetCrawlerEntry
             doc.css(".photoListingsDescription").each do |item|
                 output << "http://www.aso.com/listings/" + item.attr("href")
             end
+            
+            progress.increment
 
         end 
         
@@ -38,6 +43,8 @@ class AsoEntry < JetCrawlerEntry
         # record latest db date
         self.latest_database_touch
           
+        progress.finish
+        
         return output
         
     end

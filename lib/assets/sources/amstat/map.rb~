@@ -11,7 +11,7 @@ class AmstatMap < JetCrawlerMap
         ttaf		      = @item[105].gsub(/"/,'').strip.to_i rescue nil
         
         # inject noise into AMSTAT TT data
-        ttaf = (ttaf*(1+(5+rand(5)).to_f/100)).to_i if tt
+        ttaf = (ttaf*(1+(5+rand(5)).to_f/100)).to_i if ttaf
             
         source_data = {
             :make =>make,

@@ -1,4 +1,3 @@
-
 class AmstatEntry < JetCrawlerEntry
 
     def create_collection

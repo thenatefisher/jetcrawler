@@ -12,6 +12,10 @@ class TapEntry < JetCrawlerEntry
         cookie += "; ACTIVESUB=0;"
         agent       = "Mozilla/5.0 (X11; Ubuntu; Linux i686; rv:17.0) Gecko/20100101 Firefox/17.0"
         
+        progress = ProgressBar.create(
+          :title => "Building Index",
+          :total => 10)          
+        
         for cat in ["Jet", "TurboProp"]
             
             index_url   = "http://www.trade-a-plane.com/search?s-type=aircraft&category=#{cat}&s-seq=1&s-lvl=3&s-view=simple&s-page_size=100"
@@ -32,6 +36,8 @@ class TapEntry < JetCrawlerEntry
                     items_on_page += 1
                     output << "http://www.trade-a-plane.com" + row.attr("href") rescue nil
                 end
+                
+                progress.increment
 
             end while (items_on_page > 0)
         
@@ -43,6 +49,8 @@ class TapEntry < JetCrawlerEntry
         # record latest db date
         self.latest_database_touch
 
+        progress.finish
+        
         return output
         
     end

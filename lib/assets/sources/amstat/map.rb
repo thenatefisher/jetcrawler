@@ -23,16 +23,16 @@ class AmstatMap < JetCrawlerMap
             :tcaf => nil,
             :price => nil,   
             :location => nil,
-            :equipment => {},
-            :avionics => {},  
+            :equipment => nil,
+            :avionics => nil,  
             :description => nil, 
             :interior => nil, 
             :exterior => nil, 
             :inspection => nil, 
-            :owner => {},      
-            :seller => {},
-            :engines => {},
-            :image_urls => {}
+            :owners => [],      
+            :seller => nil,
+            :engines => [],
+            :image_urls => []
         } 
         
         return source_data
