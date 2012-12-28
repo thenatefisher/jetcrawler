@@ -45,7 +45,7 @@ threads = Array.new
 Dir.entries(File.join(File.dirname(__FILE__), "sources")).each do |f|
 
    # skip if not a source folder
-   next if f == ".." || f == "."
+   next if f == ".." || f == "." || f != "faa" 
 
    # ensure that the entry class exists
    entryClassName = "#{f.downcase.capitalize}Entry"
@@ -66,7 +66,7 @@ Dir.entries(File.join(File.dirname(__FILE__), "sources")).each do |f|
    rescue => e
    
         # this source had a problem running
-        puts "Did not harvest from: #{f} (#{e.message})"
+        puts "Did not harvest from: #{f} (#{e.message})\n #{e.backtrace}"
         next
    
    end

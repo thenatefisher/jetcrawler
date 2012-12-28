@@ -27,7 +27,7 @@ class JetCrawlerEntry < JetCrawlerBase
         eval self.class.to_s[0..-6].downcase.capitalize + "Map"
         
     end
-    
+
     # return a collection
     def create_collection
     
