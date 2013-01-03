@@ -8,6 +8,11 @@ class ControllerEntry < JetCrawlerEntry
 
         output = Array.new()
         
+        if self.latest_database_date > 30.days.ago
+          puts "Database is already fresh"
+          return output
+        end
+
         progress = ProgressBar.create(
           :title => "Building Index",
           :total => 30)  
