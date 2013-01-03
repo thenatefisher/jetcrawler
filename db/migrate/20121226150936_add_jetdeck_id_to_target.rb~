@@ -1,4 +1,0 @@
-class AddJetdeckIdToTarget < ActiveRecord::Migration
-  def change
-  end
-end
