@@ -130,12 +130,15 @@ class FaaMap < JetCrawlerMap
         return Hash.new if !source_valid?
 
         # create sha1 from URL
-        token = Digest::SHA1.hexdigest(
-            @source_record[:make] + 
-            @source_record[:model_name] + 
-            @source_record[:serial]
-        )
+        #token = Digest::SHA1.hexdigest(
+        #    @source_record[:make] + 
+        #    @source_record[:model_name] + 
+        #    @source_record[:serial]
+        #)
         
+        token = @source_record[:make] + @source_record[:model_name] + @source_record[:serial]
+        token = token[-250..-1] if token.length > 250
+
         # is there a translation record?
         translation = Translation.where(:token => token, 
                                         :source_id => source_id).first
