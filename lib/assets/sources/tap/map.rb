@@ -22,7 +22,10 @@ class TapMap < JetCrawlerMap
         return Hash.new if !source_valid?
 
         # create sha1 from URL
-        token = Digest::SHA1.hexdigest(@item)
+        #token = Digest::SHA1.hexdigest(@item)
+        
+        token = @item
+        token = token[-250..-1] if token.length > 250
         
         # is there a translation record?
         translation = Translation.where(:token => token, 

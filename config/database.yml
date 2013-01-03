@@ -9,10 +9,10 @@
 # And be sure to use new-style password hashing:
 #   http://dev.mysql.com/doc/refman/5.0/en/old-client.html
 development: 
-  adapter: postgresql
+  adapter: mysql2
   database: jetcrawler
-  username: jetdeck
-  password: jetdeck 
+  username: webdev
+  password: webdevpass 
   host: localhost 
 
 production:
