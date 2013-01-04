@@ -16,7 +16,7 @@ start_time = Time.now()
 # cancel if jetcrawler is already running
 ps_aux = `ps aux | grep "ruby jetcrawler.rb" | wc -l`
 if ps_aux.to_i > 3
-  puts "Another instance of JetCrawler is already running"
+  puts "Warning: Another instance of JetCrawler is already running"
   return
 end
 
@@ -39,7 +39,7 @@ Dir.glob(File.join(File.dirname(__FILE__), "sources", "**", "*.rb")).each do |f|
 end    
 
 # scope the threads collection
-threads = Array.new
+#threads = Array.new
 
 # for every directory in the /sources folder
 Dir.entries(File.join(File.dirname(__FILE__), "sources")).each do |f|
@@ -57,10 +57,10 @@ Dir.entries(File.join(File.dirname(__FILE__), "sources")).each do |f|
        entryClass = eval entryClassName
        entry = entryClass.new
        
+       puts "Running #{entryClassName}..."
+
        # execute its run() method
        #threads << Thread.new{ entry.run }
-       
-       puts "Running #{entryClassName}..."
        entry.run
    
    rescue => e

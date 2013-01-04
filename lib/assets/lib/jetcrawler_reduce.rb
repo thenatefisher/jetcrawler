@@ -51,6 +51,9 @@ class JetCrawlerReduce < JetCrawlerBase
         # do nothing
         next if target[k.to_sym] == v
 
+        # skip if value is nil
+        next if v.blank?
+
         # if latest change record from this source
         # has same values as this k/v, do nothing
         next if target.changes.find(
@@ -121,8 +124,8 @@ class JetCrawlerReduce < JetCrawlerBase
 
         end
 
-    end   
+      end   
 
-end
+    end
 
 end

@@ -1,13 +1,15 @@
+require File.dirname(__FILE__) + '/../../../config/environment'
+
 class JetCrawlerEntry < JetCrawlerBase
     
     def latest_database_date 
     
-       Source.find(source_id).latest
+       Source.find(source_id).latest rescue 1.year.ago
     
     end
     
     def latest_database_touch
-    
+      
       source = Source.find(source_id)
       source.latest = Time.now
       source.save
